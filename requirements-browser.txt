@@ -1,0 +1,2 @@
+# Optional browser QA; uses installed Chrome locally or Playwright Chromium in CI.
+playwright==1.55.0

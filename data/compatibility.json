@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "project": {
+    "name": "Novere",
+    "repository": "https://github.com/marcosjm333/windows-10",
+    "description": "Independent x86-64 kernel in C, pursuing progressive Windows NT binary compatibility.",
+    "stage": "Experimental foundation",
+    "architecture": "x86-64 / UEFI / Microsoft x64 ABI"
+  },
+  "target": {
+    "version": "Windows 10",
+    "release": "22H2",
+    "edition": "Pro",
+    "build": 19045,
+    "revision": 4046,
+    "architecture": "x86-64",
+    "acquisition": "NOT_ACQUIRED",
+    "source": "https://support.microsoft.com/en-US/servicing/os/windows-10/2024/02/february-13-2024-kb5034763-os-builds-19044-4046-and-19045-4046-expired"
+  },
+  "statuses": [
+    "UNKNOWN",
+    "RESEARCH",
+    "DESIGN",
+    "STUB",
+    "PARTIAL",
+    "IMPLEMENTED",
+    "VALIDATED",
+    "REGRESSION_TESTED",
+    "BROKEN"
+  ],
+  "subsystems": [
+    {
+      "id": "boot",
+      "name": "UEFI boot",
+      "status": "PARTIAL",
+      "notes": "ExitBootServices transaction, pinned handoff and an owned kernel stack; no independent image loader.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "cpu",
+      "name": "CPU and exceptions",
+      "status": "PARTIAL",
+      "notes": "GDT, IDT, TSS and IST; fatal exceptions only. AP startup, APIC and IRQ dispatch are pending.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "memory",
+      "name": "Physical memory",
+      "status": "PARTIAL",
+      "notes": "Sparse PFN database, references, generation checks and synchronized allocation; VMM, pools and paging are pending.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "debug",
+      "name": "Diagnostics",
+      "status": "PARTIAL",
+      "notes": "Bounded serial records and terminal crash context; dump persistence, unwinder and module list are pending.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "scheduler",
+      "name": "Scheduler",
+      "status": "DESIGN",
+      "notes": "Priority ready queues, wait ownership, affinity and preemption contract; implementation pending.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "dispatcher",
+      "name": "Dispatcher",
+      "status": "DESIGN",
+      "notes": "Wait blocks, signal consumption, timeout arbitration and cancellation; implementation pending.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "irql",
+      "name": "IRQL and interrupt routing",
+      "status": "RESEARCH",
+      "notes": "IRQL must bind interrupt masks, local preemption and APIC priority. No emulated IRQL variable.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "dpc",
+      "name": "DPC / APC",
+      "status": "DESIGN",
+      "notes": "Per-CPU deferred work and thread-owned APC queues require the scheduler and interrupt model.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "object",
+      "name": "Object manager",
+      "status": "DESIGN",
+      "notes": "Reference and handle ownership, namespace, security hooks and deferred destruction.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "loader",
+      "name": "PE and driver loading",
+      "status": "RESEARCH",
+      "notes": "Untrusted PE32+ validation, dependency transactions, unwind registration and rollback.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "io",
+      "name": "I/O manager",
+      "status": "DESIGN",
+      "notes": "Single IRP completion owner, cancellation arbitration, stack locations and device references.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "pnp",
+      "name": "Plug and Play",
+      "status": "DESIGN",
+      "notes": "Device tree, PDO/FDO/filter lifetimes and removal state machine.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "power",
+      "name": "Power",
+      "status": "RESEARCH",
+      "notes": "Power state coordination, device quiescence and PnP interaction.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "security",
+      "name": "Security and integrity",
+      "status": "RESEARCH",
+      "notes": "Tokens, SIDs, ACLs and trust-preserving image admission.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "registry",
+      "name": "Registry",
+      "status": "DESIGN",
+      "notes": "Typed values, key lifetimes, handles, security checks and ordered notifications.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "process",
+      "name": "Processes and threads",
+      "status": "DESIGN",
+      "notes": "Address-space ownership, kernel stacks, handle tables, rundown and thread lifecycle.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "ipc",
+      "name": "IPC",
+      "status": "RESEARCH",
+      "notes": "Endpoint ownership, messages, cancellation and quotas.",
+      "evidence": [],
+      "last_validated_commit": null
+    },
+    {
+      "id": "hal",
+      "name": "HAL",
+      "status": "RESEARCH",
+      "notes": "ACPI discovery, timers, interrupt controllers and DMA/MMIO contracts.",
+      "evidence": [],
+      "last_validated_commit": null
+    }
+  ],
+  "apis": [
+    {
+      "name": "KeWaitForSingleObject",
+      "prototype": "NTSTATUS KeWaitForSingleObject(PVOID Object, KWAIT_REASON WaitReason, KPROCESSOR_MODE WaitMode, BOOLEAN Alertable, PLARGE_INTEGER Timeout);",
+      "subsystem": "dispatcher",
+      "status": "DESIGN",
+      "irql": "<= APC_LEVEL for a blocking wait; <= DISPATCH_LEVEL only for zero timeout.",
+      "blocking": "Conditional; supports finite or infinite waits, alerts and APC interactions.",
+      "notes": "No export exists. Requires dispatcher, scheduler, timers and APC semantics.",
+      "source": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kewaitforsingleobject",
+      "tests": [],
+      "known_callers": [],
+      "last_validated_commit": null
+    },
+    {
+      "name": "IoCallDriver",
+      "prototype": "#define IoCallDriver(DeviceObject, Irp) IofCallDriver(DeviceObject, Irp)",
+      "subsystem": "io",
+      "status": "RESEARCH",
+      "irql": "<= DISPATCH_LEVEL",
+      "blocking": "Dispatch can complete synchronously or return pending; contract research required.",
+      "notes": "WDK macro, not an independently established binary export. IofCallDriver is the underlying routine.",
+      "source": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocalldriver",
+      "tests": [],
+      "known_callers": [],
+      "last_validated_commit": null
+    },
+    {
+      "name": "KeRaiseIrql",
+      "prototype": "VOID KeRaiseIrql(KIRQL NewIrql, PKIRQL OldIrql);",
+      "subsystem": "irql",
+      "status": "RESEARCH",
+      "irql": "NewIrql must be >= current IRQL; architecture binding pending.",
+      "blocking": "Does not wait.",
+      "notes": "WDK macro contract. No internal or binary implementation is provided.",
+      "source": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keraiseirql",
+      "tests": [],
+      "known_callers": [],
+      "last_validated_commit": null
+    }
+  ],
+  "drivers": [],
+  "binaries": [],
+  "milestones": [
+    {
+      "id": "M0",
+      "title": "Foundation and evidence",
+      "status": "PARTIAL",
+      "deliverables": "UEFI ownership transition, PFN contracts, CPU exceptions, diagnostics, host/VM tests and official portal."
+    },
+    {
+      "id": "M1",
+      "title": "Owned address space",
+      "status": "DESIGN",
+      "deliverables": "Page-table manager, explicit mappings, guard pages, W^X, TLB invalidation, pools, MDLs and reservation reclamation."
+    },
+    {
+      "id": "M2",
+      "title": "Interrupts and execution",
+      "status": "DESIGN",
+      "deliverables": "ACPI, APIC, timers, AP startup, per-CPU state, IRQL, scheduler and DPC."
+    },
+    {
+      "id": "M3",
+      "title": "Executive and object lifetimes",
+      "status": "DESIGN",
+      "deliverables": "Processes, dispatcher waits, APC, Object Manager, handles and security primitives."
+    },
+    {
+      "id": "M4",
+      "title": "Native driver model",
+      "status": "RESEARCH",
+      "deliverables": "PE loader, module lifetime, I/O, cancellation, PnP, registry and native test drivers."
+    },
+    {
+      "id": "M5",
+      "title": "Differential NT compatibility",
+      "status": "RESEARCH",
+      "deliverables": "Pinned Windows corpus, legitimate intact drivers and per-contract differential evidence."
+    },
+    {
+      "id": "M6",
+      "title": "Advanced stacks and integrity",
+      "status": "UNKNOWN",
+      "deliverables": "Storage, filesystems, NDIS, WDF, graphics and ci.dll with normal trust checks."
+    }
+  ],
+  "known_limitations": [
+    "Only the boot processor executes kernel code. A VM with multiple CPUs is not evidence of kernel SMP.",
+    "Firmware identity mappings remain active and pinned. Owned virtual memory, W^X enforcement and guard pages are pending.",
+    "No scheduler, NT IRQL, dispatcher, Object Manager, PE driver loader or NT exports are implemented.",
+    "No Windows binaries have been acquired, loaded or tested. No differential compatibility evidence exists.",
+    "Exceptions are terminal. Unwind consumption, persistent crash dumps and recoverable faults are pending.",
+    "Serial transport is specific to the QEMU PC COM1 configuration. No real-hardware support claim.",
+    "PFN allocation scans metadata under one ticket lock; fairness requires scheduling progress and bounded outstanding tickets.",
+    "Memory map limits are 256 KiB and 1024 descriptors; larger maps fail explicitly."
+  ],
+  "changelog": [
+    {
+      "version": "0.1.0-dev",
+      "date": "2026-10-05",
+      "changes": [
+        "Introduced C17 UEFI foundation and explicit boot ownership transaction.",
+        "Added checked map parsing, sparse PFN handles and concurrent host contracts.",
+        "Added CPU exception tables, serial records and versioned crash context.",
+        "Introduced compatibility source, technical portal and validation workflow."
+      ]
+    }
+  ]
+}
