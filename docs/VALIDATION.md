@@ -10,7 +10,9 @@ Host tests cover map byte alignment, descriptor stride/version/length, overlap,
 overflow, protected regions, sparse storage, exhaustion, stale generations,
 reference overflow, ticket wrap, random model operations and concurrent live
 ownership. Deterministic fuzzing is a bounded smoke corpus, not coverage-guided
-fuzzing. Eight workers exercise 200,000 alloc/retain/release cycles. This is host
+fuzzing. Up to eight workers (bounded by available CPUs) execute 25,000 cycles
+each; reports record the actual worker and operation count. Eight-worker local
+runs exercise 200,000 alloc/retain/release cycles. This is host
 SMP evidence only. Windows tests exercise the Microsoft aggregate ABI.
 
 QEMU scenarios require serial markers from actual kernel initialization and test
@@ -41,3 +43,13 @@ unguarded static emergency stacks and absence of NT semantics are known
 limitations. Remaining risk includes real firmware differences, hardware faults
 during early descriptor-table transition and undetected bugs outside the test
 corpus. This is an implementer's self-review, not independent approval.
+
+## Hosted stress scheduling
+
+The first CI attempt used eight workers even on smaller virtual runners and did
+not complete promptly. It was cancelled without declaring a pass. Ticket locks
+assume the owner can run: oversubscribing busy-wait workers on a hosted OS can
+cause severe scheduling convoys. The harness now bounds workers by available
+CPUs and enforces a timeout. The eight-worker local result remains recorded.
+This is not evidence of preemption-safe kernel locking; that integration remains
+an explicit scheduler/IRQL milestone.

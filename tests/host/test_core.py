@@ -15,6 +15,9 @@ ROOT = Path(__file__).resolve().parents[2]
 U64, U32, SIZE = C.c_uint64, C.c_uint32, C.c_size_t
 OK, INVALID, RANGE, CAPACITY, CORRUPT, EXHAUSTED, STALE, OVERFLOW = range(8)
 EFI_ERROR = 1 << 63
+AVAILABLE_CPUS = len(os.sched_getaffinity(0)) if hasattr(os, 'sched_getaffinity') else (os.cpu_count() or 1)
+STRESS_WORKERS = min(8, AVAILABLE_CPUS)
+STRESS_ITERATIONS = 25000
 
 class Range(C.Structure):
     _fields_ = [("base", U64), ("pages", U64), ("attributes", U64), ("type", U32), ("reserved", U32)]
@@ -161,9 +164,9 @@ class Contracts(unittest.TestCase):
         db, storage = self.database(128)
         busy = (U32 * 128)()
         def worker(_):
-            return lib.nw_pfn_stress(C.byref(db), busy, 0x100000, 25000)
-        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-            self.assertEqual(list(pool.map(worker, range(8))), [0] * 8)
+            return lib.nw_pfn_stress(C.byref(db), busy, 0x100000, STRESS_ITERATIONS)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=STRESS_WORKERS) as pool:
+            self.assertEqual(list(pool.map(worker, range(STRESS_WORKERS))), [0] * STRESS_WORKERS)
         self.assertEqual(lib.nw_pfn_check(C.byref(db)), OK)
         self.assertEqual(lib.nw_pfn_free_count(C.byref(db)), 128)
         self.assertEqual(sum(busy), 0)
@@ -259,8 +262,8 @@ if __name__ == "__main__":
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     report = {"suite": "host-contracts", "passed": result.testsRun - len(result.failures) - len(result.errors),
               "total": result.testsRun, "status": "PASS" if result.wasSuccessful() else "FAIL",
-              "seconds": round(time.monotonic() - started, 3), "stress_workers": 8,
-              "stress_iterations": 200000, "model_operations": 20000, "fuzz_inputs": 5000,
+              "seconds": round(time.monotonic() - started, 3), "stress_workers": STRESS_WORKERS,
+              "stress_iterations": STRESS_WORKERS * STRESS_ITERATIONS, "model_operations": 20000, "fuzz_inputs": 5000,
               "host": sys.platform, "config": args.config}
     (ROOT / "build" / args.config.lower() / "host-tests.json").write_text(json.dumps(report, indent=2) + "\n")
     sys.exit(0 if result.wasSuccessful() else 1)

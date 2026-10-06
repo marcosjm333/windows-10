@@ -14,7 +14,7 @@ add_custom_target(analyze
   WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" VERBATIM)
 enable_testing()
 add_test(NAME host_contracts COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tests/host/test_core.py" --config "${NW_CONFIG}")
-set_tests_properties(host_contracts PROPERTIES WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_tests_properties(host_contracts PROPERTIES WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" TIMEOUT 180)
 add_custom_target(website
   COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/website/scripts/build.py"
   WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" VERBATIM)

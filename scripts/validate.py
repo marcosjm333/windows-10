@@ -28,15 +28,15 @@ def validate(qemu=False, record=False):
     checks = []
     def run(name, args, detail=''):
         start = time.monotonic()
-        subprocess.run([sys.executable, *args], cwd=ROOT, check=True)
+        subprocess.run([sys.executable, *args], cwd=ROOT, check=True, timeout=180)
         checks.append({'name': name, 'status': 'PASS', 'seconds': round(time.monotonic() - start, 3), 'detail': detail})
     initial_digest = source_digest()
     for config in ('DEBUG', 'CHECKED', 'RELEASE'):
         run(f'build-analysis-{config}', ['scripts/build.py', '--config', config, '--host', '--analyze'], 'Clang warnings-as-errors and path-sensitive analysis')
         run(f'host-{config}', ['tests/host/test_core.py', '--config', config])
         host = json.loads((ROOT / 'build' / config.lower() / 'host-tests.json').read_text())
-        checks[-1].update({k: host[k] for k in ('passed', 'total', 'stress_iterations', 'fuzz_inputs')})
-        checks[-1]['detail'] = '8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs'
+        checks[-1].update({k: host[k] for k in ('passed', 'total', 'stress_workers', 'stress_iterations', 'fuzz_inputs')})
+        checks[-1]['detail'] = f"{host['stress_workers']} workers, {host['stress_iterations']} ownership cycles, 20000 model operations, 5000 fuzz inputs"
         run(f'pe-audit-{config}', ['tools/peinspect/inspect.py', f'build/{config.lower()}/BOOTX64.EFI', '--kernel', '--output', f'build/{config.lower()}/pe-audit.json'])
     run('tool-contracts', ['tests/host/test_tools.py'], 'PE malformed/truncated cases and 2000 mutations')
     if qemu:

@@ -1,144 +1,132 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "tested_commit": "1d426be3e0aad585cfc19dcb282bd5a539b54ae2",
-  "working_tree_changes": false,
-  "source_sha256": "9ddb407ce0cea7a3e146be172ff30ccd99ec90c517d4ab2ab102a1a962fbf301",
+  "tested_commit": "5fe5cce3fb1f3349dd44152708fb20eb563a862c",
+  "working_tree_changes": true,
+  "source_sha256": "4fa0b1907c72fc84c8f92c1e4c6f3b00becbfda36d5089a55373774261d72808",
   "checks": [
     {
       "name": "build-analysis-DEBUG",
       "status": "PASS",
-      "seconds": 1.719,
+      "seconds": 1.797,
       "detail": "Clang warnings-as-errors and path-sensitive analysis"
     },
     {
       "name": "host-DEBUG",
       "status": "PASS",
-      "seconds": 0.484,
+      "seconds": 0.547,
       "detail": "8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs",
       "passed": 16,
       "total": 16,
+      "stress_workers": 8,
       "stress_iterations": 200000,
       "fuzz_inputs": 5000
     },
     {
       "name": "pe-audit-DEBUG",
       "status": "PASS",
-      "seconds": 0.094,
+      "seconds": 0.109,
       "detail": ""
     },
     {
       "name": "build-analysis-CHECKED",
       "status": "PASS",
-      "seconds": 1.859,
+      "seconds": 1.985,
       "detail": "Clang warnings-as-errors and path-sensitive analysis"
     },
     {
       "name": "host-CHECKED",
       "status": "PASS",
-      "seconds": 0.469,
+      "seconds": 0.593,
       "detail": "8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs",
       "passed": 16,
       "total": 16,
+      "stress_workers": 8,
       "stress_iterations": 200000,
       "fuzz_inputs": 5000
     },
     {
       "name": "pe-audit-CHECKED",
       "status": "PASS",
-      "seconds": 0.078,
+      "seconds": 0.094,
       "detail": ""
     },
     {
       "name": "build-analysis-RELEASE",
       "status": "PASS",
-      "seconds": 1.953,
+      "seconds": 2.109,
       "detail": "Clang warnings-as-errors and path-sensitive analysis"
     },
     {
       "name": "host-RELEASE",
       "status": "PASS",
-      "seconds": 0.469,
+      "seconds": 0.5,
       "detail": "8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs",
       "passed": 16,
       "total": 16,
+      "stress_workers": 8,
       "stress_iterations": 200000,
       "fuzz_inputs": 5000
     },
     {
       "name": "pe-audit-RELEASE",
       "status": "PASS",
-      "seconds": 0.094,
+      "seconds": 0.109,
       "detail": ""
     },
     {
       "name": "tool-contracts",
       "status": "PASS",
-      "seconds": 0.234,
+      "seconds": 0.266,
       "detail": "PE malformed/truncated cases and 2000 mutations"
     },
     {
       "name": "qemu-DEBUG-128m-1cpu",
       "status": "PASS",
-      "seconds": 2.734,
+      "seconds": 3.156,
       "detail": "BSP execution only; not kernel SMP validation"
     },
     {
       "name": "qemu-CHECKED-256m-1cpu",
       "status": "PASS",
-      "seconds": 2.735,
+      "seconds": 3.141,
       "detail": "BSP execution only; not kernel SMP validation"
     },
     {
       "name": "qemu-RELEASE-512m-4cpu",
       "status": "PASS",
-      "seconds": 3.14,
+      "seconds": 3.156,
       "detail": "BSP execution only; not kernel SMP validation"
     },
     {
       "name": "build-exception-image",
       "status": "PASS",
-      "seconds": 0.829,
+      "seconds": 0.859,
       "detail": ""
     },
     {
       "name": "qemu-exception",
       "status": "PASS",
-      "seconds": 2.75,
+      "seconds": 2.938,
       "detail": "Intentional UD2; fatal vector 6 and context required"
     },
     {
       "name": "documentation",
       "status": "PASS",
-      "seconds": 0.265,
+      "seconds": 0.297,
       "detail": ""
     },
     {
       "name": "website-build",
       "status": "PASS",
-      "seconds": 0.406,
+      "seconds": 0.765,
       "detail": ""
     },
     {
       "name": "website-links",
       "status": "PASS",
-      "seconds": 0.454,
+      "seconds": 0.516,
       "detail": ""
-    },
-    {
-      "name": "browser-local",
-      "status": "PASS",
-      "detail": "12 routes; API search/filter persistence; desktop 1440x1000 and mobile 390x844; no page errors"
-    },
-    {
-      "name": "architecture-self-review",
-      "status": "PASS",
-      "detail": "Scoped foundation review in docs/VALIDATION.md; independent review pending"
-    },
-    {
-      "name": "invariant-self-review",
-      "status": "PASS",
-      "detail": "Ownership, arithmetic, lock ordering, memory ordering, ABI and boot lifetimes reviewed"
     }
   ],
   "unexecuted": [
@@ -170,6 +158,5 @@
       "exception_test": false,
       "static_analysis": "PASS"
     }
-  },
-  "evidence_binding": "Tests ran before commit; the normalized source digest matches this committed tree exactly."
+  }
 }
