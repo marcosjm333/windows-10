@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "tested_commit": "a8ce17d81a820342dfbea90c6ab591b1f5e9d7bf",
-  "working_tree_changes": true,
+  "tested_commit": "1d426be3e0aad585cfc19dcb282bd5a539b54ae2",
+  "working_tree_changes": false,
   "source_sha256": "9ddb407ce0cea7a3e146be172ff30ccd99ec90c517d4ab2ab102a1a962fbf301",
   "checks": [
     {
@@ -124,6 +124,21 @@
       "status": "PASS",
       "seconds": 0.454,
       "detail": ""
+    },
+    {
+      "name": "browser-local",
+      "status": "PASS",
+      "detail": "12 routes; API search/filter persistence; desktop 1440x1000 and mobile 390x844; no page errors"
+    },
+    {
+      "name": "architecture-self-review",
+      "status": "PASS",
+      "detail": "Scoped foundation review in docs/VALIDATION.md; independent review pending"
+    },
+    {
+      "name": "invariant-self-review",
+      "status": "PASS",
+      "detail": "Ownership, arithmetic, lock ordering, memory ordering, ABI and boot lifetimes reviewed"
     }
   ],
   "unexecuted": [
@@ -155,5 +170,6 @@
       "exception_test": false,
       "static_analysis": "PASS"
     }
-  }
+  },
+  "evidence_binding": "Tests ran before commit; the normalized source digest matches this committed tree exactly."
 }
