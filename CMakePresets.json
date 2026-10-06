@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {"name":"checked","generator":"Ninja","binaryDir":"${sourceDir}/build/cmake-checked","cacheVariables":{"NW_CONFIG":"CHECKED"}},
+    {"name":"debug","inherits":"checked","binaryDir":"${sourceDir}/build/cmake-debug","cacheVariables":{"NW_CONFIG":"DEBUG"}},
+    {"name":"release","inherits":"checked","binaryDir":"${sourceDir}/build/cmake-release","cacheVariables":{"NW_CONFIG":"RELEASE"}}
+  ],
+  "buildPresets": [{"name":"checked","configurePreset":"checked"},{"name":"debug","configurePreset":"debug"},{"name":"release","configurePreset":"release"}],
+  "testPresets": [{"name":"checked","configurePreset":"checked","output":{"outputOnFailure":true}}]
+}
