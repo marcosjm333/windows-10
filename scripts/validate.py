@@ -18,7 +18,9 @@ def source_digest():
                                 'data/compatibility.json', 'data/compatibility.schema.json',
                                 'requirements-browser.txt', '.github/workflows/validate.yml')]
     digest = hashlib.sha256()
-    for path in sorted(paths):
+    # Path ordering differs between Windows (case-folded) and POSIX. Sort the
+    # repository-relative serialized names instead so both attest the same tree.
+    for path in sorted(paths, key=lambda p: p.relative_to(ROOT).as_posix()):
         digest.update(path.relative_to(ROOT).as_posix().encode() + b'\0')
         # Git text attributes normalize to LF; evidence is portable across checkouts.
         digest.update(path.read_bytes().replace(b'\r\n', b'\n') + b'\0')

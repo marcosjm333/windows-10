@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "tested_commit": "5fe5cce3fb1f3349dd44152708fb20eb563a862c",
+  "tested_commit": "acf09a6959a60d7511e52685d17f52f763812357",
   "working_tree_changes": true,
-  "source_sha256": "4fa0b1907c72fc84c8f92c1e4c6f3b00becbfda36d5089a55373774261d72808",
+  "source_sha256": "22d0f60b1ef727ac60a316643a444537f2d75015348cd2ca6852fc5197ff5ba3",
   "checks": [
     {
       "name": "build-analysis-DEBUG",
       "status": "PASS",
-      "seconds": 1.797,
+      "seconds": 1.828,
       "detail": "Clang warnings-as-errors and path-sensitive analysis"
     },
     {
       "name": "host-DEBUG",
       "status": "PASS",
-      "seconds": 0.547,
+      "seconds": 0.531,
       "detail": "8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs",
       "passed": 16,
       "total": 16,
@@ -25,19 +25,19 @@
     {
       "name": "pe-audit-DEBUG",
       "status": "PASS",
-      "seconds": 0.109,
+      "seconds": 0.11,
       "detail": ""
     },
     {
       "name": "build-analysis-CHECKED",
       "status": "PASS",
-      "seconds": 1.985,
+      "seconds": 2.046,
       "detail": "Clang warnings-as-errors and path-sensitive analysis"
     },
     {
       "name": "host-CHECKED",
       "status": "PASS",
-      "seconds": 0.593,
+      "seconds": 0.469,
       "detail": "8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs",
       "passed": 16,
       "total": 16,
@@ -54,13 +54,13 @@
     {
       "name": "build-analysis-RELEASE",
       "status": "PASS",
-      "seconds": 2.109,
+      "seconds": 2.062,
       "detail": "Clang warnings-as-errors and path-sensitive analysis"
     },
     {
       "name": "host-RELEASE",
       "status": "PASS",
-      "seconds": 0.5,
+      "seconds": 0.453,
       "detail": "8 workers, 200000 ownership cycles, 20000 model operations, 5000 fuzz inputs",
       "passed": 16,
       "total": 16,
@@ -71,25 +71,25 @@
     {
       "name": "pe-audit-RELEASE",
       "status": "PASS",
-      "seconds": 0.109,
+      "seconds": 0.078,
       "detail": ""
     },
     {
       "name": "tool-contracts",
       "status": "PASS",
-      "seconds": 0.266,
+      "seconds": 0.25,
       "detail": "PE malformed/truncated cases and 2000 mutations"
     },
     {
       "name": "qemu-DEBUG-128m-1cpu",
       "status": "PASS",
-      "seconds": 3.156,
+      "seconds": 2.937,
       "detail": "BSP execution only; not kernel SMP validation"
     },
     {
       "name": "qemu-CHECKED-256m-1cpu",
       "status": "PASS",
-      "seconds": 3.141,
+      "seconds": 2.938,
       "detail": "BSP execution only; not kernel SMP validation"
     },
     {
@@ -101,31 +101,31 @@
     {
       "name": "build-exception-image",
       "status": "PASS",
-      "seconds": 0.859,
+      "seconds": 0.906,
       "detail": ""
     },
     {
       "name": "qemu-exception",
       "status": "PASS",
-      "seconds": 2.938,
+      "seconds": 3.157,
       "detail": "Intentional UD2; fatal vector 6 and context required"
     },
     {
       "name": "documentation",
       "status": "PASS",
-      "seconds": 0.297,
+      "seconds": 0.265,
       "detail": ""
     },
     {
       "name": "website-build",
       "status": "PASS",
-      "seconds": 0.765,
+      "seconds": 0.407,
       "detail": ""
     },
     {
       "name": "website-links",
       "status": "PASS",
-      "seconds": 0.516,
+      "seconds": 0.453,
       "detail": ""
     }
   ],
